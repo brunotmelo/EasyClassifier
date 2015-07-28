@@ -43,10 +43,10 @@ public class ClassifyScreen extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo( null );
 
-        System.out.println("null results error");
         setLocationRelativeTo(null);
         
         this.core = Core.getInstance();
+        this.results = core.getResults();
         
         this.tableModelRecordings = new DefaultTableModel();
         this.tableModelRecordings.addColumn("Name");
@@ -96,6 +96,7 @@ public class ClassifyScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jRadioButton1 = new javax.swing.JRadioButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -123,9 +124,15 @@ public class ClassifyScreen extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+
+        jRadioButton1.setText("jRadioButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EasyClassifier");
@@ -386,6 +393,18 @@ public class ClassifyScreen extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem3);
 
+        jMenu4.setText("Extras");
+
+        jMenuItem5.setText("Autoweka Export");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem5);
+
+        jMenu1.add(jMenu4);
+
         jMenuBar1.add(jMenu1);
 
         jMenu3.setText("View");
@@ -407,16 +426,28 @@ public class ClassifyScreen extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem1);
 
+        jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("Help");
+
+        jMenuItem4.setText("Manual");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
         jCheckBoxMenuItem1.setSelected(true);
-        jCheckBoxMenuItem1.setText("Help");
+        jCheckBoxMenuItem1.setText("Help Dialogs");
         jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu3.add(jCheckBoxMenuItem1);
+        jMenu2.add(jCheckBoxMenuItem1);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -441,7 +472,7 @@ public class ClassifyScreen extends javax.swing.JFrame {
             results.setVisible(true);
             try{
                 //true in the second argument will extract features from uncategorized audios
-                new JaudioThread(this,true).start();
+                new JaudioThread(this,false).start();
             }catch(Exception e){
                 System.out.println("erro: " + e);
             }
@@ -507,6 +538,9 @@ public class ClassifyScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
+    /**
+     * creates an instances.xml based on the recordings in BaseRecordings.
+     */
     public void createFiles(){
         try {
             String content = "";
@@ -701,6 +735,15 @@ public class ClassifyScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenu3MenuSelected
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        core.openManual();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        new AutoWekaScreen().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -751,14 +794,19 @@ public class ClassifyScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

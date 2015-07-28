@@ -7,6 +7,7 @@ package org.gc4mir.gui;
 
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import org.gc4mir.core.Core;
 import org.gc4mir.util.ACECommunicator;
 
 /**
@@ -15,13 +16,17 @@ import org.gc4mir.util.ACECommunicator;
  */
 public class CrossValScreen extends javax.swing.JFrame {
 
-    private ResultsScreen results;
-    private ACECommunicator aceCommunicator;
+    private final ResultsScreen results;
+    private final ACECommunicator aceCommunicator;
     /**
      * Creates new form CrossValScreen
      */
     public CrossValScreen() {
         initComponents();
+        this.setLocationRelativeTo( null );
+        
+        this.results = Core.getInstance().getResults();
+        this.aceCommunicator = ACECommunicator.getInstance();
     }
     
     public CrossValScreen(ResultsScreen results) {
@@ -56,13 +61,12 @@ public class CrossValScreen extends javax.swing.JFrame {
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Unweighted k-nn (k = 1)", "Naive Bayesian (Gaussian)", "Support Vector Machine", "C4.5 Decision Tree", "Backprop Neural Network", "AdaBoost seeded with C4.5 Decision Trees", "Bagging seeded with C4.5 Decision Trees" }));
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "Principal Components Analysis (PCA)", "Exhaustive search using naive Bayesian classifier (EXB)", "Genetic search using naive Bayesian classifier (GNB)" }));
-        jComboBox4.setEnabled(false);
 
         jLabel8.setText("Classifier Type:");
 
-        jLabel9.setText("Dimensionality Reduction:");
+        jLabel9.setText("Dimensionality Reduction method:");
 
-        jLabel7.setText("Number of Folds:");
+        jLabel7.setText("Number of Folds:(default=5)");
 
         jTextField3.setText("5");
         jTextField3.setToolTipText("");

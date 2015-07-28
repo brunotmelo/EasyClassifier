@@ -120,7 +120,6 @@
             <StringItem index="3" value="Genetic search using naive Bayesian classifier (GNB)"/>
           </StringArray>
         </Property>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">

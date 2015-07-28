@@ -5,9 +5,13 @@
  */
 package org.gc4mir.gui;
 
-
 import jAudioFeatureExtractor.Controller;
 import jAudioFeatureExtractor.OuterFrame;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.gc4mir.core.Core;
@@ -17,7 +21,7 @@ import org.gc4mir.core.JaudioThread;
  *
  * @author Bruno
  */
-public class BasicMainScreen extends javax.swing.JFrame {
+public class AutoWekaScreen extends javax.swing.JFrame {
 
     private Core core;
     private DefaultTableModel tableModelCategories;
@@ -28,8 +32,8 @@ public class BasicMainScreen extends javax.swing.JFrame {
      * Creates new form BasicMain
      */
     
-    public BasicMainScreen() {
-        this.setTitle("EasyMIR");
+    public AutoWekaScreen() {
+        this.setTitle("EasyMIR - Export Auto-WEKA");
         initComponents();
         this.setLocationRelativeTo( null );
         
@@ -40,28 +44,6 @@ public class BasicMainScreen extends javax.swing.JFrame {
         this.tableModelCategories.addColumn("Number of Recordings");
         jTable1.setModel(tableModelCategories);
         enableRefresh = true;
-        
-        //will be true if help is enabled
-        if(core.getHelp()){
-            jCheckBoxMenuItem1.setSelected(true);
-        }else{
-            jCheckBoxMenuItem1.setSelected(false);
-        }
-        this.results = core.getResults();
-    }
-    
-    public BasicMainScreen(ResultsScreen results) {
-        this.setTitle("EasyMIR");
-        initComponents();
-        setLocationRelativeTo(null);
-        
-        this.core = Core.getInstance();
-        
-        this.tableModelCategories = new DefaultTableModel();
-        this.tableModelCategories.addColumn("Identifier");
-        this.tableModelCategories.addColumn("Number of Recordings");
-        jTable1.setModel(tableModelCategories);
-        
         
         //will be true if help is enabled
         if(core.getHelp()){
@@ -113,27 +95,18 @@ public class BasicMainScreen extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         continueButton1 = new javax.swing.JButton();
         backButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        backButton2 = new javax.swing.JButton();
-        continueButton2 = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
         backButton4 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        continueButton2 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -278,6 +251,13 @@ public class BasicMainScreen extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("jButton3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -294,6 +274,8 @@ public class BasicMainScreen extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(backButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addGap(78, 78, 78)
                         .addComponent(continueButton1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -317,109 +299,15 @@ public class BasicMainScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(continueButton1)
-                    .addComponent(backButton1))
+                    .addComponent(backButton1)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Extract Features", jPanel1);
 
-        backButton2.setText("Back");
-        backButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButton2ActionPerformed(evt);
-            }
-        });
-
-        continueButton2.setText("Continue");
-        continueButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                continueButton2ActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Find out the best classification approach for your dataset.");
-
-        jButton3.setText("Test all classifiers");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Choose a technique and train a classifier.");
-
-        jButton4.setText("Train");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("Test one classifier");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator3)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(backButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
-                        .addComponent(continueButton2))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jButton4)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jButton3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton8))
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton8))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(continueButton2)
-                    .addComponent(backButton2))
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Train", jPanel3);
-
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Your classifier is ready. Now you are ready to classify new audios.");
-
-        jButton7.setText("Test Classifier");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
+        jLabel5.setText("Your file is ready to be used in autoweka.");
 
         backButton4.setText("Back");
         backButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -428,12 +316,15 @@ public class BasicMainScreen extends javax.swing.JFrame {
             }
         });
 
-        jButton9.setText("Export Classifier");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        continueButton2.setText("Finish");
+        continueButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                continueButton2ActionPerformed(evt);
             }
         });
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Get the file \"train.arff\" inside export/autoweka");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -442,18 +333,13 @@ public class BasicMainScreen extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator5)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jButton7)
-                                .addGap(58, 58, 58)
-                                .addComponent(jButton9))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(backButton4)
-                                .addGap(263, 263, 263)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
+                        .addComponent(backButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(continueButton2))
+                    .addComponent(jSeparator5)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -461,20 +347,28 @@ public class BasicMainScreen extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(backButton4)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backButton4)
+                    .addComponent(continueButton2))
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Finish", jPanel4);
 
         jMenu1.setText("Change Perspective");
+
+        jMenuItem5.setText("Create Classifier");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
 
         jMenuItem2.setText("Test Classifier");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -491,18 +385,6 @@ public class BasicMainScreen extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem3);
-
-        jMenu4.setText("Extras");
-
-        jMenuItem6.setText("Autoweka Export");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem6);
-
-        jMenu1.add(jMenu4);
 
         jMenuBar1.add(jMenu1);
 
@@ -564,118 +446,12 @@ public class BasicMainScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Controller c = new Controller();
-        //opens jaudio main screen
-	new OuterFrame(c);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void continueButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButton1ActionPerformed
-        jTabbedPane1.setSelectedIndex(2);
-    }//GEN-LAST:event_continueButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //old code
-        //new ExtractScreen().setVisible(true);
-        if(core.getBaseCategories().hasRecordings()){
-            results.setVisible(true);
-            try{
-                
-                new JaudioThread(this,true,false).start();
-            }catch(Exception e){
-                System.out.println("erro: " + e);
-            }
-        }else{
-            JOptionPane.showMessageDialog(this,
-                    "There are no audios to extract features from.",
-                    "No audios",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-        
-        
-        
-        
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void backButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton2ActionPerformed
-        jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_backButton2ActionPerformed
-
-    private void AddButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButton1ActionPerformed
-        new CategoryScreen(this).setVisible(true);
-    }//GEN-LAST:event_AddButton1ActionPerformed
-
-    private void continueButton0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButton0ActionPerformed
-        new CategoryScreen(this,tableModelCategories.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
-    }//GEN-LAST:event_continueButton0ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
-        jTabbedPane1.setSelectedIndex(0);
-    }//GEN-LAST:event_backButton1ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // remove categories
-        String id;
-        int[] indexes = jTable1.getSelectedRows();
-        for(int i = 0; i< indexes.length; i++){
-            id = tableModelCategories.getValueAt(indexes[i], 0).toString();
-            core.getBaseCategories().removeCategory(id);
-        }
-        
-        refreshCategories();
-        
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        new ExperimentScreen().setVisible(true);
-        if(core.getHelp()){
-            JOptionPane.showMessageDialog(this,
-                    "You dont have to put anything in number of folds, its for experienced users.\n\n"
-                            + "Check for \"Best found Classifier in the results\"");
-        }
-        
-  
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         results.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new TrainScreen().setVisible(true);
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void continueButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButton2ActionPerformed
-        jTabbedPane1.setSelectedIndex(3);
-    }//GEN-LAST:event_continueButton2ActionPerformed
-
-    private void backButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton4ActionPerformed
-        jTabbedPane1.setSelectedIndex(2);
-    }//GEN-LAST:event_backButton4ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        new ClassifyScreen().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        
-        new CrossValScreen().setVisible(true);
-        if(core.getHelp()){
-            JOptionPane.showMessageDialog(this,
-                    "You dont have to put anything in number of folds, its for advanced users.\n"
-                    + "If you dont know which classifier you want to test, try the \"test all classifiers\".");
-        }
-        
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        new ClassifyScreen(results).setVisible(true);
+        new ClassifyScreen().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -689,61 +465,12 @@ public class BasicMainScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
 
-    private void jPanel1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel1FocusGained
-
-    }//GEN-LAST:event_jPanel1FocusGained
-
-    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
-        int s = jTabbedPane1.getSelectedIndex();
-        
-        if(core==null){
-            core = Core.getInstance();
-        }
-        
-        if(s == 0){
-            refreshCategoryTable();
-        }
-        
-        if(core.getHelp()){
-            switch(s){
-            case 0: 
-                //categorize screen help dialog
-                JOptionPane.showMessageDialog(this,
-                    "First: you need a set of audios to use as examples to create a classifier.\n"
-                            + "Categories are the labels that tell the classifier what an audio is.\n\n"
-                            + "Create categories and add the audios inside.");
-                break;
-            case 1: 
-                //opens extract screen help dialog
-                JOptionPane.showMessageDialog(this,
-                    "Second: you have to extract audio caracteristics.\n"
-                    + "These are named features.");
-                break;
-            case 2:
-                JOptionPane.showMessageDialog(this,
-                    "Third: you have to choose a technique to create your classifier.\n"
-                    + "Before choosing a technique you can test which is the best with the upper buttons.");
-                break;
-        
-            }
-        }
-        
-    }//GEN-LAST:event_jTabbedPane1StateChanged
-
-    
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         core.setResults(results);
         
         new ExportScreen().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        core.setResults(results);
-        
-        new ExportScreen().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton9ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     }//GEN-LAST:event_formWindowOpened
@@ -760,22 +487,179 @@ public class BasicMainScreen extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        new AutoWekaScreen().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        int s = jTabbedPane1.getSelectedIndex();
 
-    @Override
-    public void dispose(){
-        core.getBaseCategories().reset();
-        super.dispose();
-    }
+        if(core==null){
+            core = Core.getInstance();
+        }
+
+        if(s == 0){
+            refreshCategoryTable();
+        }
+
+        if(core.getHelp()){
+            switch(s){
+                case 0:
+                //categorize screen help dialog
+                JOptionPane.showMessageDialog(this,
+                    "First: you need a set of audios to use as examples to create a classifier.\n"
+                    + "Categories are the labels that tell the classifier what an audio is.\n\n"
+                    + "Create categories and add the audios inside.");
+                break;
+                case 1:
+                //opens extract screen help dialog
+                JOptionPane.showMessageDialog(this,
+                    "Second: you have to extract audio caracteristics.\n"
+                    + "These are named features.");
+                break;
+                case 2:
+
+            }
+        }
+
+    }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void backButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton4ActionPerformed
+        jTabbedPane1.setSelectedIndex(2);
+    }//GEN-LAST:event_backButton4ActionPerformed
+
+    private void jPanel1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel1FocusGained
+
+    }//GEN-LAST:event_jPanel1FocusGained
+
+    private void backButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButton1ActionPerformed
+        jTabbedPane1.setSelectedIndex(0);
+    }//GEN-LAST:event_backButton1ActionPerformed
+
+    private void continueButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButton1ActionPerformed
+        jTabbedPane1.setSelectedIndex(2);
+    }//GEN-LAST:event_continueButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //old code
+        //new ExtractScreen().setVisible(true);
+        if(core.getBaseCategories().hasRecordings()){
+            results.setVisible(true);
+            try{
+                //false in the second argument will extract features from categorized audios
+                new JaudioThread(this,true,true).start();
+            }catch(Exception e){
+                System.out.println("erro: " + e);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this,
+                "There are no audios to extract features from.",
+                "No audios",
+                JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Controller c = new Controller();
+        new OuterFrame(c);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void continueButton0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButton0ActionPerformed
+        new CategoryScreen(this,tableModelCategories.getValueAt(jTable1.getSelectedRow(), 0).toString()).setVisible(true);
+    }//GEN-LAST:event_continueButton0ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // remove categories
+        String id;
+        int[] indexes = jTable1.getSelectedRows();
+        for(int i = 0; i< indexes.length; i++){
+            id = tableModelCategories.getValueAt(indexes[i], 0).toString();
+            core.getBaseCategories().removeCategory(id);
+        }
+
+        refreshCategories();
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void AddButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButton1ActionPerformed
+        new CategoryScreen(this).setVisible(true);
+    }//GEN-LAST:event_AddButton1ActionPerformed
+
+    private void continueButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_continueButton2ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        new BasicMainScreen().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            core.addArffClasses();
+        } catch (Exception ex) {
+            Logger.getLogger(AutoWekaScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+
     
     public void refreshCategories(){
         refreshCategoryTable();
-        core.createFiles();
+        createFiles();
         
         //core.getBaseCategories()
+    }
+    
+    public void createFiles(){
+        try {
+            String content = "";
+            content = content + "<?xml version=\"1.0\"?>\n" +
+                    "<!DOCTYPE classifications_file [\n" +
+                    "   <!ELEMENT classifications_file (comments, data_set+)>\n" +
+                    "   <!ELEMENT comments (#PCDATA)>\n" +
+                    "   <!ELEMENT data_set (data_set_id, misc_info*, role?, classification)>\n" +
+                    "   <!ELEMENT data_set_id (#PCDATA)>\n" +
+                    "   <!ELEMENT misc_info (#PCDATA)>\n" +
+                    "   <!ATTLIST misc_info info_type CDATA \"\">\n" +
+                    "   <!ELEMENT role (#PCDATA)>\n" +
+                    "   <!ELEMENT classification (section*, class*)>\n" +
+                    "   <!ELEMENT section (start, stop, class+)>\n" +
+                    "   <!ELEMENT class (#PCDATA)>\n" +
+                    "   <!ELEMENT start (#PCDATA)>\n" +
+                    "   <!ELEMENT stop (#PCDATA)>\n" +
+                    "]>\n"
+                    + "<classifications_file>\n" +
+                    "\n" +
+                    "   <comments></comments>\n"
+                    + "\n";
+            
+            for(int i = 0; i < core.getBaseCategories().getCategories().size(); i++){
+                for(int j = 0; j < core.getBaseCategories().getCategories().get(i).getRecordings().size(); j++){
+                    String instance = "<data_set>\n" +
+                                    "		<data_set_id>"
+                                    + core.getBaseCategories().getCategories().get(i).getRecordings().get(j).getPath() +
+                                    "</data_set_id>\n" +
+                                    "		<role>training</role>\n" +
+                                    "    	<classification><class>"
+                                    + core.getBaseCategories().getCategories().get(i).getId() +
+                                    "</class></classification>\n" +
+                                    "   </data_set>\n";
+                    content = content + instance;
+                }
+            }
+            
+            content = content + "\n</classifications_file>";
+            
+            FileWriter featuresNewFile;
+            featuresNewFile = new FileWriter(new File("Instances.xml"));
+            featuresNewFile.write(content);
+            featuresNewFile.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(GC4MIRMainScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -795,21 +679,23 @@ public class BasicMainScreen extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BasicMainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AutoWekaScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BasicMainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AutoWekaScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BasicMainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AutoWekaScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BasicMainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AutoWekaScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BasicMainScreen().setVisible(true);
+                new AutoWekaScreen().setVisible(true);
             }
         });
     }
@@ -817,7 +703,6 @@ public class BasicMainScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddButton1;
     private javax.swing.JButton backButton1;
-    private javax.swing.JButton backButton2;
     private javax.swing.JButton backButton4;
     private javax.swing.JButton continueButton0;
     private javax.swing.JButton continueButton1;
@@ -825,36 +710,28 @@ public class BasicMainScreen extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane1;

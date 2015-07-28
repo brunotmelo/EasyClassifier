@@ -9,15 +9,10 @@ package org.gc4mir.util;
 import ace.CommandLine;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.gc4mir.core.CommandThread;
@@ -44,7 +39,13 @@ public class ACECommunicator {
     }
     
     
-    
+    /**
+     * trains a classifier and saves it in a file named classifiers/'output'.model
+     * 
+     * @param output the name of the .model file
+     * @param learner the learning algorithm to be used
+     * @param dr the dimensionality reduction technique to be used
+     */
     public void train(String output, String learner, String dr){
         //command
         // -lfkey feature_valuesFK.xml -lfvec feature_valuesFV.xml -lmclas Instances.xml -train -sres saida.model -learner learner
@@ -71,9 +72,9 @@ public class ACECommunicator {
             String[] argsArray = args.toArray(new String[args.size()]);
             
             //threaded way
-            
-            new CommandThread(argsArray).start();
             //copy taxonomy file
+            new CommandThread(argsArray,output).start();
+            
             
         
     }

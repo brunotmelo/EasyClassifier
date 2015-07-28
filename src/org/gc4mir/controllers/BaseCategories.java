@@ -22,6 +22,10 @@ public class BaseCategories {
         categories = new ArrayList<>();
     }
     
+    public void reset(){
+        categories = new ArrayList<>();
+    }
+    
     public void addCategory(Category c){
         boolean inserted = false;
         for(int i = 0; i < categories.size(); i++){
@@ -103,6 +107,10 @@ public class BaseCategories {
 
     public List<Category> getCategories() {
         return categories;
+    }
+    
+    public int size(){
+        return categories.size();
     }
     
     //Return -1 if the speaker is not registred or 'i' (his index) for speaker is registred

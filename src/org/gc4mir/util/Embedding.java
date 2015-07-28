@@ -22,7 +22,11 @@ import java.io.OutputStream;
 public class Embedding {
     
     
-    //TODO: explain what to do next
+    /**
+     * prepares a classifier to be exported
+     * 
+     * @param classifierName the name of the classifier to be exported
+     */
     public static void exportClassifier(String classifierName){
         // -zipfile myproject.zip -dozip myproject 
         //  copy ace files into folder export/classifiername
@@ -69,8 +73,9 @@ public class Embedding {
     }
             
     
-    //TODO trow error if src taxonomy does not exists
     private static void copyTaxonomy(String modelname){
+        //error may need to be trow if taxonomy does not exists
+        //the user may have deleted it.
         File src = new File("classifiers/Taxonomy-"+ modelname+".xml");
         File dest = new File("export/classifiers/"+ modelname+"/Taxonomy.xml");
         

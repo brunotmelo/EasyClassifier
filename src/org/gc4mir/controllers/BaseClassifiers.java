@@ -49,40 +49,11 @@ public class BaseClassifiers {
     
     public void addClassifier(String model){
         classifiers.add(model);
-        copyTaxonomy(model);
         writeFile();
         
     }
     
-    public void copyTaxonomy(String modelname){
-        File src = new File("Taxonomy.xml");
-        File dest = new File("classifiers/Taxonomy-"+ modelname+".xml");
-        
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new FileInputStream(src);
-            os = new FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) > 0) {
-                os.write(buffer, 0, length);
-            }
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }catch(IOException e){
-            e.printStackTrace();
-        }finally {
-            try{
-                is.close();
-                os.close();
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-        
-        
-    }
+
     
     public void writeFile(){
         try{
@@ -142,6 +113,7 @@ public class BaseClassifiers {
             return repeated;
     }
     
+    //this class does not work yet
     public void replaceClassifier(int index,String model){
         classifiers.set(index,model);
         writeFile();
@@ -158,26 +130,33 @@ public class BaseClassifiers {
     public void removeClassifier(int index){
         String name = classifiers.get(index);
         
+        try{
+            //deletes .model file
         File file = new File("classifiers/"+name+".model");
  
     		if(file.delete()){
-    			System.out.println(file.getName() + " is deleted!");
+    			System.out.println(file.getName() + " was deleted");
     		}else{
     			System.out.println("File to be deleted not found");
     		}
         
+        //deletes taxonomy file
         file = new File("classifiers/Taxonomy-"+name+".xml");
         
         if(file.delete()){
-            System.out.println(file.getName() + " is deleted!");
+            System.out.println(file.getName() + " was deleted");
         }else{
             System.out.println("File to be deleted not found");
         }
-                
+        //removes the classifier from buffer
         classifiers.remove(index);
+        //removes the classifier from list
         writeFile();
-        
-        
+        }catch(Exception e){
+            System.out.println("There was an error while trying to remove the classifier");
+            e.printStackTrace();
+        }
+            
     }
     
 }

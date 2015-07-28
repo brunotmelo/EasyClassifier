@@ -96,7 +96,6 @@
             <StringItem index="3" value="Genetic search using naive Bayesian classifier (GNB)"/>
           </StringArray>
         </Property>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -106,12 +105,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Dimensionality Reduction:"/>
+        <Property name="text" type="java.lang.String" value="Dimensionality Reduction method:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Number of Folds:"/>
+        <Property name="text" type="java.lang.String" value="Number of Folds:(default=5)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField3">

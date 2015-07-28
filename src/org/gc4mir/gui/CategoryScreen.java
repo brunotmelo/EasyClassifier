@@ -7,6 +7,7 @@ package org.gc4mir.gui;
 
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.gc4mir.basics.Category;
@@ -23,9 +24,14 @@ public class CategoryScreen extends javax.swing.JFrame {
     private JFileChooser load_recording_chooser = null;
     private String oldCategoryId;
     private Category oldCategory;
-    private BasicMainScreen father;
+    private JFrame father;
     /**
-     * Creates new form CategoryScreen
+     * boolean indicating if the output will be in arff format(used in autoweka).
+     */
+    private boolean autoweka;
+    
+    /**
+     * this method is normally not used
      */
     public CategoryScreen() {
         initComponents();
@@ -38,12 +44,31 @@ public class CategoryScreen extends javax.swing.JFrame {
         jTable1.setModel(this.tableModelRecordings);
     }
     
+    /**
+     *
+     * @param father
+     */
     public CategoryScreen(BasicMainScreen father) {
         initComponents();
         this.setLocationRelativeTo( null );
         
         this.core = Core.getInstance();
         this.father = father;
+        autoweka = false;
+        
+        this.tableModelRecordings = new DefaultTableModel();
+        this.tableModelRecordings.addColumn("Name");
+        this.tableModelRecordings.addColumn("Path");
+        jTable1.setModel(this.tableModelRecordings);
+    }
+    
+    public CategoryScreen(AutoWekaScreen father) {
+        initComponents();
+        this.setLocationRelativeTo( null );
+        
+        this.core = Core.getInstance();
+        this.father = father;
+        autoweka = true;
         
         this.tableModelRecordings = new DefaultTableModel();
         this.tableModelRecordings.addColumn("Name");
@@ -58,6 +83,7 @@ public class CategoryScreen extends javax.swing.JFrame {
         
         this.father = father;
         oldCategoryId = categoryId;
+        autoweka = false;
         
         this.tableModelRecordings = new DefaultTableModel();
         this.tableModelRecordings.addColumn("Name");
@@ -66,7 +92,26 @@ public class CategoryScreen extends javax.swing.JFrame {
         loadCategory();
         
     }
-
+    
+    public CategoryScreen(AutoWekaScreen father, String categoryId){
+        //will be used for editing categories
+        initComponents();
+        this.core = Core.getInstance();
+        
+        this.father = father;
+        oldCategoryId = categoryId;
+        autoweka = true;
+        
+        this.tableModelRecordings = new DefaultTableModel();
+        this.tableModelRecordings.addColumn("Name");
+        this.tableModelRecordings.addColumn("Path");
+        jTable1.setModel(this.tableModelRecordings);
+        loadCategory();
+        
+    }
+    /**
+     * loads the category 'oldCategoryId' into the table.
+     */
     private void loadCategory(){
         jTextField1.setText(oldCategoryId);
         
@@ -219,6 +264,7 @@ public class CategoryScreen extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if(!jTextField1.getText().isEmpty()){
+            //checks if it is editing a category or adding a new one.
             if(oldCategoryId == null){
                 //adding category
                 Category c = core.addCategory(jTextField1.getText());
@@ -302,14 +348,17 @@ public class CategoryScreen extends javax.swing.JFrame {
         refreshRecordingTable();
     }//GEN-LAST:event_removeButtonActionPerformed
 
-    
+
     private void refreshTable(){
         //i have to refresh the other screen when it comes back
         refreshRecordingTable();
     }
     
     
-    
+    /**
+     * refresh recording table according to the recordings inside BaseRecordings.
+     * It is used as a buffer to keep the recordings before saving them.
+     */
     private void refreshRecordingTable(){
         tableModelRecordings.setRowCount(0);
         for(int i = 0; i < core.getRecordingsSize(); i++){
@@ -324,7 +373,15 @@ public class CategoryScreen extends javax.swing.JFrame {
         core.getBaseRecordings().reset();
         oldCategoryId = null;
         oldCategory = null;
-        father.refreshCategories();
+        if(autoweka){
+            AutoWekaScreen f = (AutoWekaScreen)father;
+            f.refreshCategories();
+        }else{
+            BasicMainScreen f = (BasicMainScreen)father;
+            f.refreshCategories();
+        }
+            
+        
         super.dispose();
     }
     

@@ -27,8 +27,12 @@ public class TrainScreen extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
         aceCommunicator = ACECommunicator.getInstance();
+        core = Core.getInstance();
+        this.results = core.getResults();
+        
     }
     
+    //unused
     public TrainScreen(ResultsScreen results) {
         initComponents();
         setLocationRelativeTo(null);
@@ -71,7 +75,6 @@ public class TrainScreen extends javax.swing.JFrame {
         });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "Principal Components Analysis (PCA)", "Exhaustive search using naive Bayesian classifier (EXB)", "Genetic search using naive Bayesian classifier (GNB)" }));
-        jComboBox2.setEnabled(false);
 
         jLabel6.setText("Dimensionality Reduction:");
 
@@ -175,14 +178,13 @@ public class TrainScreen extends javax.swing.JFrame {
         if(rIndex == -1){
             results.setVisible(true);
             aceCommunicator.train(model, algorithm, dr);
-            core.getBaseClassifiers().addClassifier(model);
             
             this.dispose();
         }else{
             //shows dialog to check if user wants to replace
             Object[] options = {"No", "Yes"};
             int n = JOptionPane.showOptionDialog(this,
-            "A classiier with that name already exists.\n"
+            "A classifier with that name already exists.\n"
                     + "Do you want to replace it?",
             "Reaplace Classfier",
             JOptionPane.YES_NO_CANCEL_OPTION,
