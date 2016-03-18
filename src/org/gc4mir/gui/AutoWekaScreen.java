@@ -658,7 +658,7 @@ public class AutoWekaScreen extends javax.swing.JFrame {
             featuresNewFile.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(GC4MIRMainScreen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AutoWekaScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
